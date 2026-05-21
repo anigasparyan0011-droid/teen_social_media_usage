@@ -1,104 +1,66 @@
+Markdown
 # Teenager Mental Health ETL & Analytics Project
 
-A data engineering and analytics project that extracts, cleans, transforms, and loads teenager mental health survey data into a relational SQL database using Python and Pandas.
+A data engineering and analytics project that extracts raw teenager mental health survey data, loads it into a local SQLite database using Python, and normalizes it into a relational schema for advanced SQL analysis. 
 
-The project focuses on building a simple ETL pipeline, designing a normalized database schema, and performing SQL analysis on real-world mental health data.
+The project focuses on building a clean pass-through ETL pipeline, creating an optimized relational schema, and executing targeted analytical queries to study how screen time habits directly affect teenage psychological states and academic performance.
 
-Dataset Source:
-https://www.kaggle.com/datasets/algozee/teenager-menthal-healy/data
-
----
-
-# Project Overview
-
-Raw datasets are often inconsistent, duplicated, or incomplete, making them difficult to analyze directly.
-This project simulates a real-world data workflow by processing teenager mental health survey data and transforming it into a structured relational database for analytics.
-
-The dataset includes information related to:
-
-* Student demographics
-* Sleep habits
-* Academic pressure
-* Social media usage
-* Stress and anxiety indicators
-* Mental health conditions
+* **Dataset Source:** [Kaggle - Social Media Impact on Teen Mental Health](https://www.kaggle.com/datasets/algozee/teenager-menthal-healy/data)
 
 ---
 
-# Main Project Components
+## Project Overview
 
-## Data Modeling
+Raw datasets are often unorganized, nested, or structurally redundant, making direct analysis inefficient. This project handles a real-world data workflow by migrating a flat, unorganized CSV dataset into a balanced 4-table relational database engine.
 
-Designed a relational database schema with:
-
-* Multiple related tables
-* Primary and foreign keys
-* Constraints and relationships
-* Normalized structure to reduce redundancy
-
----
-
-## Data Cleaning & Transformation
-
-Performed preprocessing steps including:
-
-* Handling missing values
-* Removing duplicates
-* Standardizing formats
-* Fixing incorrect data types
-* Validating relationships between tables
+The database successfully monitors and tracks:
+* **Student Demographics:** Age, gender, and profile attributes.
+* **Sleep & Screen Habits:** Daily sleep hours vs. device exposure before bed.
+* **Academic Performance:** Direct GPA and school tracking metrics.
+* **Clinical Health Indicators:** Correlated stress, anxiety, and depression scales.
 
 ---
 
-## ETL Pipeline
+## Main Project Components
 
-Implemented a modular ETL workflow using Python:
+### 1. Relational Data Modeling
+Converted a flat dataset into a strict 4-table layout to eliminate data redundancy and preserve storage space.
+* Established a primary `teenagers` demographics root table.
+* Deployed a many-to-many junction bridge (`teen_platforms`) to isolate messy multi-app text entries into atomic rows.
+* Balanced a 1-to-1 operational metric store (`teen_metrics`) for clinical and academic variables.
 
-* extract.py → Reads raw dataset files
-* transform.py → Cleans and preprocesses the data
-* load.py → Inserts processed data into SQL database
-* main.py → Runs the complete pipeline
+### 2. Python ETL Pipeline
+Implemented a modular data engineering workflow using Python and SQLAlchemy:
+* `extract.py`: Reads the raw source CSV dataset using Pandas directly into memory.
+* `transform.py`: Functions as a clean pass-through layer to guarantee raw data integrity prior to ingestion.
+* `load.py`: Automatically creates the engine and loads data blocks into a local SQLite instance.
+* `main.py`: Coordinates and executes the entire data pipeline instantly.
 
----
-
-# SQL Analysis
-
-Using SQL queries, the project explores questions such as:
-
-* Does low sleep duration correlate with higher stress?
-* How does social media usage affect mental health?
-* Which student groups show higher anxiety levels?
-* Are there differences between genders?
-* What lifestyle patterns are linked to healthier mental conditions?
-
-The analysis includes:
-
-* JOINs
-* GROUP BY
-* Aggregate functions
-* Filtering
-* Window functions
+### 3. SQL Analytics
+Executed advanced data analysis directly inside the database engine using SQL queries to extract behavioral and clinical trends:
+* Used **Common Table Expressions (CTEs)** and advanced **Window Functions** (`ROW_NUMBER()`) to partition application user spaces and isolate the top 5 heaviest screen consumers on each platform.
+* Applied conditional array grouping (`CASE WHEN`) to segment screen time into Low, Medium, and High usage brackets to find exact anxiety breaking points.
+* Implemented multi-table `JOIN` operations and filter logic to capture high-risk, sleep-deprived target profiles.
 
 ---
 
-# Technologies Used
+## Technologies Used
 
-* Python
-* Pandas
-* NumPy
-* PostgreSQL / MySQL / SQL Server
-* SQL
-* Git & GitHub
+* **Language:** Python
+* **Libraries:** Pandas, SQLAlchemy
+* **Database Engine:** SQLite
+* **Query Language:** SQL
+* **Version Control:** Git & GitHub
 
 ---
 
-# Project Structure
+## Project Structure
 
-bash id="53f5lv"
+```bash
 project/
 │
 ├── data/
-│   └── teenager_mental_health.csv
+│   └── Teen_Mental_Health_Dataset.csv
 │
 ├── app/
 │   ├── extract.py
@@ -107,78 +69,8 @@ project/
 │   └── main.py
 │
 ├── sql/
-│   ├── schema.sql
-│   └── queries.sql
+│   ├── 02_create_schema.sql
+│   ├── 03_insert_data.sql
+│   └── teen_platform_usage.sql
 │
-├── requirements.txt
 └── README.md
-
----
-
-# How To Run The Project
-
-## 1. Clone Repository
-
-bash id="vwj08o"
-git clone https://github.com/your-username/teenager-mental-health-project.git
-cd teenager-mental-health-project
-
----
-
-## 2. Install Dependencies
-
-bash id="wz0b6s"
-pip install -r requirements.txt
-
----
-
-## 3. Configure Database Settings
-
-Update database credentials inside load.py.
-
----
-
-## 4. Create Database Schema
-
-Run:
-
-bash id="6d9jol"
-sql/schema.sql
-
----
-
-## 5. Execute ETL Pipeline
-
-bash id="iqqfzm"
-python app/main.py
-
----
-
-## 6. Run SQL Queries
-
-Execute:
-
-bash id="czt7ub"
-sql/queries.sql
-
-to generate analytical results.
-
----
-
-# Key Learning Outcomes
-
-This project demonstrates:
-
-* ETL pipeline development
-* Relational database design
-* Data cleaning and preprocessing
-* SQL analytics and reporting
-* Working with real-world datasets
-
----
-
-# License
-
-Kaggle (https://www.kaggle.com/datasets/algozee/teenager-menthal-healy/data)
-Social Media Impact on Teen Mental Health
-Analyzing how social media affects stress, anxiety, and sleep
