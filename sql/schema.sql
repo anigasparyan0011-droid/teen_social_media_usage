@@ -1,3 +1,41 @@
+CREATE TABLE IF NOT EXISTS teenagers (
+    teen_id INTEGER PRIMARY KEY,
+    age INTEGER NOT NULL,
+    gender TEXT NOT NULL
+);
+
+CREATE TABLE IF NOT EXISTS platforms (
+    platform_id INTEGER PRIMARY KEY,
+    platform_name TEXT NOT NULL UNIQUE
+);
+
+CREATE TABLE IF NOT EXISTS teen_platforms (
+    teen_id INTEGER,
+    platform_id INTEGER,
+    PRIMARY KEY (teen_id, platform_id),
+    FOREIGN KEY (teen_id) REFERENCES teenagers(teen_id) ON DELETE CASCADE,
+    FOREIGN KEY (platform_id) REFERENCES platforms(platform_id) ON DELETE CASCADE
+);
+
+CREATE TABLE IF NOT EXISTS teen_metrics (
+    teen_id INTEGER PRIMARY KEY,
+    daily_social_media_hours REAL,
+    sleep_hours REAL,
+    screen_time_before_sleep REAL,
+    academic_performance REAL,
+    physical_activity REAL,
+    social_interaction_level TEXT,
+    stress_level INTEGER,
+    anxiety_level INTEGER,
+    addiction_level INTEGER,
+    depression_label TEXT,
+    FOREIGN KEY (teen_id) REFERENCES teenagers(teen_id) ON DELETE CASCADE
+);
+
+-- =========================================================
+-- 2. DATA INGESTION & CLEANING PIPELINE (INSERT DATA)
+-- =========================================================
+
 PRAGMA foreign_keys = ON;
 
 DELETE FROM teen_platforms;
